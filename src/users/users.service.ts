@@ -12,7 +12,6 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     let user = await this.userModel.create(createUserDto);
-
     return user;
   }
 
