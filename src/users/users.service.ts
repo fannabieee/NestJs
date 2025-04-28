@@ -19,7 +19,14 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    let user = await this.userModel.create(createUserDto);
+    const hash = await hashSync(createUserDto.password);
+
+    let user = await this.userModel.create({
+      email: createUserDto.email,
+      password: hash,
+      name: createUserDto.name,
+      address: createUserDto.address,
+    });
     return user;
   }
 
@@ -28,18 +35,20 @@ export class UsersService {
     return users;
   }
 
- async findOne(id: number) {
-   let user = await this.userModel.findById(id);
+ async findOne(id: string) {
+   let user = await this.userModel.findOne({
+     _id: id,
+   });
    return user;
   }
 
- async update(id: number, updateUserDto: UpdateUserDto) {
-    let user = await this.userModel.updateOne(UpdateUserDto);
+ async update(id: string, updateUserDto: UpdateUserDto) {
+    let user = await this.userModel.updateOne({id,UpdateUserDto});
     return user;
   }
 
  async remove(id: number) {
-   let user = await this.userModel.deleteOne();
+   let user = await this.userModel.deleteOne({id});
    return user;
  }
 
