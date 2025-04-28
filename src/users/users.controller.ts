@@ -9,25 +9,29 @@ export class UsersController {
 
   @Post('users')
   create(@Body() createUserDto: CreateUserDto) {
+
+    const hassPassword = this.usersService.getHashPass(createUserDto.password);
+    createUserDto.password = hassPassword;
+
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
+  @Get('users')
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
+  @Get('users/:id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('users/:id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
+  @Delete('users/:id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
